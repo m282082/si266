@@ -40,7 +40,7 @@ int main()
             int id;
             float temp[3];
             //Checks for error and scans buffer
-            if(sscanf(buffer, "%3s %d | %f %f %f", &check, &id, &(temp[0]), &(temp[1]), &(temp[2])) != 5 || strcmp(check, "ID:") != 0)
+            if(sscanf(buffer, "%3s %d | %f %f %f", check, &id, &(temp[0]), &(temp[1]), &(temp[2])) != 5 || strcmp(check, "ID:") != 0)
             {
                 continue;
             }
@@ -48,7 +48,7 @@ int main()
             {
                 //Clean output
                 float avgtemp = (temp[0] + temp[1] + temp[2]) / 3.0;
-                printf("Sensor %d: Avg Temp = %.2f \n", id, avgtemp);
+                printf("Sensor %d: Avg Temp = %.2f\n", id, avgtemp);
             }
         }
     }
