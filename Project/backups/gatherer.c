@@ -12,34 +12,8 @@ typedef struct{
 void ProcessStat(Pair* A);
 void ProcessMeminfo(Pair* A);
 void ProcessLoadavg(Pair* A);
-void UpdateLoop();
 
 int main()
-{
-    //Splits child from parent'
-    int cpid = fork();
-    if(cpid == 0)
-    {
-        //Child
-        printf("[CHILD] I will be the visualizer someday.\n");
-        exit(0);
-    }
-    else if(cpid > 0)
-    {
-        //Parent
-        while(1)
-        {
-            UpdateLoop();
-            sleep(1);
-        }
-    }
-
-    //Error state
-    printf("Error: failed to fork (main)\n");
-    exit(1);
-}
-
-void UpdateLoop()
 {
     //Assumes only 12 items to be retrived
     Pair* retrived = calloc(12, sizeof(Pair));
@@ -68,6 +42,8 @@ void UpdateLoop()
         free(retrived[i].name);
     }
     free(retrived);
+
+	return 0;
 }
 
 int ProcessValuePair(FILE* fPtr, char* name)
@@ -75,14 +51,14 @@ int ProcessValuePair(FILE* fPtr, char* name)
     char buffer[100];
     if(fgets(buffer, 100, fPtr) == NULL)
     {
-        printf("Error: failed fgets (%s)\n", name);
+        printf("Error: failed fgets (%s)", name);
         exit(1);
     }
 
     int val;
     if(sscanf(buffer, "%*s%d", &val) != 1)
     {
-        printf("Error: scan failed (%s)\n", name);
+        printf("Error: scan failed (%s)", name);
         exit(1);
     }
 
@@ -96,14 +72,14 @@ void ProcessStat(Pair* A)
     //Checks for error
     if(fPtr == NULL)
     {
-        printf("Error: Cannot open file (/proc/stat)\n");
+        printf("Error: Cannot open file (/proc/stat)");
         exit(1);
     }
 
     //First check of CPU Usage
     if(fgets(buffer, 100, fPtr) == NULL)
     {
-        printf("Error: failed fgets (CPU_USAGE_1)\n");
+        printf("Error: failed fgets (CPU_USAGE_1)");
         exit(1);
     }
     
@@ -111,7 +87,7 @@ void ProcessStat(Pair* A)
     float cpuTimesFirst[8];
     if(sscanf(buffer, "%*s%n", &bufferMove) < 0)
     {
-        printf("Error: scan failed (CPU_USAGE_1)\n");
+        printf("Error: scan failed (CPU_USAGE_1)");
         exit(1);
     }
 
@@ -121,7 +97,7 @@ void ProcessStat(Pair* A)
         if(sscanf(buffer + bufferMove, "%f %n", &(cpuTimesFirst[i]), &n) != 1)
         {
             printf("%d", i);
-	    printf("Error: scan failed (CPU_USAGE_1)\n");
+	    printf("Error: scan failed (CPU_USAGE_1)");
             exit(1);
         }
         bufferMove += n;
@@ -134,14 +110,14 @@ void ProcessStat(Pair* A)
     //Checks for error
     if(fPtr == NULL)
     {
-        printf("Error: Cannot open file (/proc/stat)\n");
+        printf("Error: Cannot open file (/proc/stat)");
         exit(1);
     }
 
     //Second check of CPU Usage
     if(fgets(buffer, 100, fPtr) == NULL)
     {
-        printf("Error: failed fgets (CPU_USAGE_2)\n");
+        printf("Error: failed fgets (CPU_USAGE_2)");
         exit(1);
     }
     
@@ -149,7 +125,7 @@ void ProcessStat(Pair* A)
     float cpuTimesSecond[8];
     if(sscanf(buffer, "%*s%n", &bufferMove) < 0)
     {
-        printf("Error: scan failed (CPU_USAGE_2)\n");
+        printf("Error: scan failed (CPU_USAGE_2)");
         exit(1);
     }
 
@@ -158,7 +134,7 @@ void ProcessStat(Pair* A)
         int n;
         if(sscanf(buffer + bufferMove, "%f %n", &(cpuTimesSecond[i]), &n) != 1)
         {
-            printf("Error: scan failed (CPU_USAGE_2)\n");
+            printf("Error: scan failed (CPU_USAGE_2)");
             exit(1);
         }
         bufferMove += n;
@@ -181,13 +157,13 @@ void ProcessStat(Pair* A)
     {
         if(fgets(buffer, 100, fPtr) == NULL)
         {
-            printf("Error: failed fgets (PROC_TOTAL)\n");
+            printf("Error: failed fgets (PROC_TOTAL)");
             exit(1);
         }
 
         if(sscanf(buffer, "%s", find) != 1)
         {
-            printf("Error: scan failed (PROC_TOTAL)\n");
+            printf("Error: scan failed (PROC_TOTAL)");
             exit(1);
         }
     }
@@ -196,13 +172,13 @@ void ProcessStat(Pair* A)
     strncpy(A[11].name, "PROC_TOTAL", 15);
     if(sscanf(buffer, "%*s%d", &(A[11].ival)) != 1)
     {
-        printf("Error: scan failed (PROC_TOTAL)\n");
+        printf("Error: scan failed (PROC_TOTAL)");
         exit(1);
     }
     
     if(fgets(buffer, 100, fPtr) == NULL)
     {
-        printf("Error: failed fgets (PROC_TOTAL)\n");
+        printf("Error: failed fgets (PROC_TOTAL)");
         exit(1);
     }
 
@@ -210,7 +186,7 @@ void ProcessStat(Pair* A)
     strncpy(A[10].name, "PROC_RUN", 15);
     if(sscanf(buffer, "%*s%d", &(A[10].ival)) != 1)
     {
-        printf("Error: scan failed (PROC_TOTAL)\n");
+        printf("Error: scan failed (PROC_TOTAL)");
         exit(1);
     }
 
@@ -223,7 +199,7 @@ void ProcessMeminfo(Pair* A)
     //Checks for error
     if(fPtr == NULL)
     {
-        printf("Error: Cannot open file (/proc/meminfo)\n");
+        printf("Error: Cannot open file (/proc/meminfo)");
         exit(1);
     }
 
@@ -279,13 +255,13 @@ void ProcessLoadavg(Pair* A)
     //Checks for error
     if(fPtr == NULL)
     {
-        printf("Error: Cannot open file (/proc/loadavg)\n");
+        printf("Error: Cannot open file (/proc/loadavg)");
         exit(1);
     }
 
     if(fgets(buffer, 100, fPtr) == NULL)
     {
-        printf("Error: failed fgets (/proc/loadavg)\n");
+        printf("Error: failed fgets (/proc/loadavg)");
         exit(1);
     }
 
@@ -298,7 +274,7 @@ void ProcessLoadavg(Pair* A)
 
     if(sscanf(buffer, "%f %f %f", &(A[7].fval), &(A[8].fval), &(A[9].fval)) != 3)
     {
-        printf("Error: scan failed (/proc/loadavg)\n");
+        printf("Error: scan failed (/proc/loadavg)");
         exit(1);
     }
 }
