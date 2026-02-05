@@ -4,10 +4,10 @@ CC = gcc
 CFLAGS = -Wall -Wextra -g -o
 
 gatherer.o: gatherer.c gatherer.h
-	$(CC) -c $(CFLAGS) gatherer.c
+	$(CC) -c $(CFLAGS) gatherer.o gatherer.c
 
 gatherer: gatherer.o
-	$(CC) $(CFLAGS) gatherer.o
+	$(CC) $(CFLAGS) gatherer gatherer.o
 
 test: gatherer
 	./test.sh
