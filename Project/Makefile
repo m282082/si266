@@ -12,8 +12,11 @@ gatherer: gatherer.o
 test: gatherer
 	./test.sh
 
+run: gatherer
+	./gatherer
+
 clean:
 	rm -f gatherer gatherer.o
 
 submit:
-	echo "Need submit link"
+	submit -c=SI266 -p=milestone01 gatherer.c gatherer.h Makefile test.sh

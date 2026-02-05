@@ -1,0 +1,19 @@
+    1. How many total processes are created? (Draw the tree).
+    
+    4 processes a parent, 2 child, and a grandchild as the first split will occur 
+    at the first command then the child process will continue and fork again at the sceond command.
+    After the Grandchild and child terminate, the parent process will begin again and 
+    reach the second fork again creating a second child from the parent before the 
+    entire program terminates.
+    
+    2. How many lines of text are printed?
+    
+    4
+    
+    3. What are the four specific numbers printed?
+    
+    21
+    20
+    6
+    5    
+    
